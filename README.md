@@ -59,6 +59,22 @@ Existing files in `data/` are never overwritten by the migration process.
 
 If `data/aria2c.exe` is not available, RomGoGetter can also use aria2c installed in the system PATH.
 
+### aria2 Integration
+
+RomGoGetter Community Edition includes `aria2c.exe` for Windows x64 in the `data/` directory.
+
+The bundled executable is used for torrent-based downloads from supported sources, including Minerva.
+
+No separate aria2 installation is required when using the bundled Windows x64 executable.
+
+If the bundled executable is unavailable, RomGoGetter will attempt to locate aria2 through the system PATH.
+
+**Third-party software notice:** aria2 is an independent open-source project distributed under the GNU General Public License v2.0 or later.
+
+Official project: https://github.com/aria2/aria2
+
+Licensing information and corresponding source code availability details are documented separately.
+
 See [CHANGELOG.md](CHANGELOG.md) for the full list of changes.
 
 **Download:** [RomGoGetter Community Edition releases](https://github.com/Monkey85/RomGoGetter/releases)
@@ -101,18 +117,11 @@ RomGoGetter started as a 1G1R tool — pick the best regional variant of each ga
 
 ### Installation
 
-1. Download `RomGoGetter_CE_v0.18.2.pyw`.
-2. Keep the application configuration JSON files inside the `data/` directory.
-3. For Minerva torrent downloads, place `aria2c.exe` inside `data/`, or ensure aria2c is available in the system PATH.
-4. Install the required Python dependencies as described in the original project's documentation.
-5. Run `RomGoGetter_CE_v0.18.2.pyw`.
-
-The application automatically creates the `data/` directory when needed.
-
-When upgrading from an earlier version, existing root-level configuration files are automatically migrated.
-
-Currently tested only on Windows.
-
+```
+git clone https://github.com/shokoe/RomGoGetter
+cd RomGoGetter
+python RomGoGetter_v0_17.pyw
+```
 ---
 
 ## Usage Examples
