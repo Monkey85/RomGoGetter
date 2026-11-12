@@ -6,6 +6,7 @@
 # Modified version based on RomGoGetter v0.18; original credits and license retained.
 #
 # 1G1R ROM downloader and curator for archive.org, lolroms.com and compatible sources.
+# Runtime settings, groups and aria2c.exe are stored in the data/ directory.
 
 import sys
 import os
@@ -73,18 +74,37 @@ STUCK_TIMEOUT = 60
 
 APP_NAME      = 'RomGoGetter'
 APP_VER       = 'v0.18.2 Community Edition'
-SETTINGS_FILE = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    f'{APP_NAME}_settings.json'
-)
-GROUPS_FILE     = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    f'{APP_NAME}_groups.json'
-)
-DAT_GROUPS_FILE = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    f'{APP_NAME}_dat_groups.json'
-)
+APP_DIR       = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR      = os.path.join(APP_DIR, 'data')
+SETTINGS_FILE = os.path.join(DATA_DIR, f'{APP_NAME}_settings.json')
+GROUPS_FILE   = os.path.join(DATA_DIR, f'{APP_NAME}_groups.json')
+DAT_GROUPS_FILE = os.path.join(DATA_DIR, f'{APP_NAME}_dat_groups.json')
+ARIA2C_FILE   = os.path.join(DATA_DIR, 'aria2c.exe')
+
+
+def _prepare_data_directory():
+    """Set up data/ and gently migrate existing root-level files on first run.
+
+    A file already present in data/ is NEVER overwritten.  Leave the old file
+    in place if a move fails, so its contents are not lost.
+    """
+    try:
+        os.makedirs(DATA_DIR, exist_ok=True)
+    except OSError as exc:
+        print(f'[DATA] Unable to create {DATA_DIR}: {exc}', file=sys.stderr)
+        return
+    for filename in (f'{APP_NAME}_settings.json', f'{APP_NAME}_groups.json',
+                     f'{APP_NAME}_dat_groups.json', 'aria2c.exe'):
+        original = os.path.join(APP_DIR, filename)
+        destination = os.path.join(DATA_DIR, filename)
+        if os.path.isfile(original) and not os.path.exists(destination):
+            try:
+                shutil.move(original, destination)
+            except OSError as exc:
+                print(f'[DATA] Unable to move {original} to data/: {exc}', file=sys.stderr)
+
+
+_prepare_data_directory()
 
 BG      = '#1e1e1e'
 BG2     = '#2d2d2d'
@@ -135,6 +155,7 @@ def load_settings() -> dict:
 
 def save_settings(settings: dict):
     try:
+        os.makedirs(DATA_DIR, exist_ok=True)
         with open(SETTINGS_FILE, 'w', encoding='utf-8') as f:
             json.dump(settings, f, indent=2)
     except Exception:
@@ -153,6 +174,7 @@ def load_groups() -> dict:
 
 def save_groups(groups: dict):
     try:
+        os.makedirs(DATA_DIR, exist_ok=True)
         with open(GROUPS_FILE, 'w', encoding='utf-8') as f:
             json.dump(groups, f, indent=2)
     except Exception:
@@ -171,6 +193,7 @@ def load_dat_groups() -> dict:
 
 def save_dat_groups(groups: dict):
     try:
+        os.makedirs(DATA_DIR, exist_ok=True)
         with open(DAT_GROUPS_FILE, 'w', encoding='utf-8') as f:
             json.dump(groups, f, indent=2)
     except Exception:
@@ -885,10 +908,9 @@ def make_subset_torrent(torrent_data: bytes, selected_filenames: set) -> bytes:
 
 
 def find_aria2c() -> str | None:
-    """Find aria2c.exe — bundled next to the .pyw, or on PATH."""
-    bundled = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'aria2c.exe')
-    if os.path.exists(bundled):
-        return bundled
+    """Find aria2c.exe in data/, or via the system PATH."""
+    if os.path.isfile(ARIA2C_FILE):
+        return ARIA2C_FILE
     import shutil
     return shutil.which('aria2c') or shutil.which('aria2c.exe')
 
@@ -2420,7 +2442,7 @@ class App:
 
         tk.Label(content, text='Settings', bg=BG, fg=FG, font=FONT_XL).pack(
             anchor='w', padx=18, pady=(14, 2))
-        tk.Label(content, text='These preferences are shared with Setup and Download, and saved in RomGoGetter_settings.json.',
+        tk.Label(content, text='These preferences are shared with Setup and Download, and saved in data/RomGoGetter_settings.json.',
                  bg=BG, fg=FG2, font=FONT_SM).pack(anchor='w', padx=18, pady=(0, 12))
 
         general = tk.LabelFrame(content, text=' Appearance ', bg=BG, fg=FG,
@@ -2539,7 +2561,7 @@ class App:
         header.pack(fill='x', padx=14, pady=(12, 7))
         tk.Label(header, text='LoLROMs Group Generator', font=FONT_LG,
                  bg=BG, fg=FG).pack(anchor='w')
-        tk.Label(header, text='Scan every ROM folder (including subfolders), review the results, then generate RomGoGetter_groups.json.',
+        tk.Label(header, text='Scan every ROM folder (including subfolders), review the results, then generate data/RomGoGetter_groups.json.',
                  font=FONT_SM, bg=BG, fg=FG2).pack(anchor='w', pady=(4, 0))
         source_row = tk.Frame(tab, bg=BG)
         source_row.pack(fill='x', padx=14, pady=(4, 8))
@@ -2858,6 +2880,7 @@ class App:
                 _shutil.copy2(GROUPS_FILE, backup)
                 self._debug(f'[GROUP GENERATOR] Backup: {backup}')
             directory = os.path.dirname(GROUPS_FILE)
+            os.makedirs(directory, exist_ok=True)
             with _tempfile.NamedTemporaryFile('w', encoding='utf-8', dir=directory,
                                                prefix='.groups_', suffix='.tmp', delete=False) as out:
                 tmp_path = out.name
@@ -7731,7 +7754,7 @@ class App:
         aria2c = find_aria2c()
         if not aria2c:
             messagebox.showerror('aria2c not found',
-                'aria2c.exe not found.\nPlace aria2c.exe next to RomGoGetter or install it on PATH.')
+                'aria2c.exe not found.\nPlace aria2c.exe in the data folder next to RomGoGetter or install it on PATH.')
             return
 
         urls = [u.strip() for u in self.url_text.get('1.0', 'end').splitlines() if u.strip()]
