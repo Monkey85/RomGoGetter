@@ -27,6 +27,38 @@ This release focuses on download stability, arcade FixDAT matching and user inte
 - Improved Download tab layout.
 - Dark-themed Group Generator with native-style checkboxes.
 
+## Directory Structure
+RomGoGetter Community Edition stores its configuration files and the optional aria2c executable in a dedicated `data/` directory.
+
+```text
+RomGoGetter/
+├── RomGoGetter_CE_v0.18.2.pyw
+├── data/
+│   ├── RomGoGetter_settings.json
+│   ├── RomGoGetter_groups.json
+│   ├── RomGoGetter_dat_groups.json
+│   └── aria2c.exe
+├── README.md
+├── CHANGELOG.md
+└── LICENSE
+```
+
+### Configuration Files
+- `RomGoGetter_settings.json` — Application preferences and download settings.
+- `RomGoGetter_groups.json` — Saved ROM source groups.
+- `RomGoGetter_dat_groups.json` — Saved DAT groups.
+- `aria2c.exe` — Optional download executable used for Minerva torrent downloads.
+
+### Automatic Migration
+
+When upgrading from an older Community Edition version, RomGoGetter automatically creates the `data/` directory and moves existing configuration files and `aria2c.exe` from the application root into it.
+
+Existing files in `data/` are never overwritten by the migration process.
+
+**Important:** Back up your configuration files before upgrading.
+
+If `data/aria2c.exe` is not available, RomGoGetter can also use aria2c installed in the system PATH.
+
 See [CHANGELOG.md](CHANGELOG.md) for the full list of changes.
 
 **Download:** [RomGoGetter Community Edition releases](https://github.com/Monkey85/RomGoGetter/releases)
