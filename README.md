@@ -99,13 +99,17 @@ RomGoGetter started as a 1G1R tool — pick the best regional variant of each ga
 
 ---
 
-## Installation
+### Installation
 
-```
-git clone https://github.com/shokoe/RomGoGetter
-cd RomGoGetter
-python RomGoGetter_v0_17.pyw
-```
+1. Download `RomGoGetter_CE_v0.18.2.pyw`.
+2. Keep the application configuration JSON files inside the `data/` directory.
+3. For Minerva torrent downloads, place `aria2c.exe` inside `data/`, or ensure aria2c is available in the system PATH.
+4. Install the required Python dependencies as described in the original project's documentation.
+5. Run `RomGoGetter_CE_v0.18.2.pyw`.
+
+The application automatically creates the `data/` directory when needed.
+
+When upgrading from an earlier version, existing root-level configuration files are automatically migrated.
 
 Currently tested only on Windows.
 
