@@ -1,4 +1,4 @@
-# RomGoGetter Community Edition v0.18.1
+# RomGoGetter Community Edition v0.18.2
 
 **An unofficial community fork of [RomGoGetter](https://github.com/shokoe/RomGoGetter), originally developed by Shoko.**
 
@@ -14,6 +14,24 @@ This edition builds upon the original v0.18 release, introducing improvements to
 - Soft Reset without restarting the application.
 - Download progress improvements and a Stop button.
 - Dedicated Settings tab and reorganized navigation.
+
+### Latest release — v0.18.2
+
+This release focuses on download stability, arcade FixDAT matching and user interface consistency.
+
+**Highlights:**
+- Improved aria2c torrent downloads with Pause, Resume and Stop.
+- Automatic cleanup of temporary directories after stopping downloads.
+- Previously completed downloads are detected and skipped.
+- Enhanced arcade clone-to-parent matching without requiring an additional reference DAT.
+- Improved Download tab layout.
+- Dark-themed Group Generator with native-style checkboxes.
+
+See [CHANGELOG.md](CHANGELOG.md) for the full list of changes.
+
+**Download:** [RomGoGetter Community Edition releases](https://github.com/Monkey85/RomGoGetter/releases)
+
+**Original project:** [RomGoGetter by Shoko](https://github.com/shokoe/RomGoGetter).
 
 ### Credits and attribution
 
