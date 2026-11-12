@@ -1,3 +1,36 @@
+# RomGoGetter Community Edition v0.18.1
+
+**An unofficial community fork of [RomGoGetter](https://github.com/shokoe/RomGoGetter), originally developed by Shoko.**
+
+This edition builds upon the original v0.18 release, introducing improvements to ROM selection, DAT matching, download management, and the user interface.
+
+### Community Edition improvements
+
+- Enhanced LoLROMs file discovery and matching.
+- Custom ROM filters for betas, prototypes, demos, homebrew, and other categories.
+- Improved No-Intro and arcade FixDAT handling.
+- Group Generator for organizing source URLs.
+- Improved group selection and autocomplete.
+- Soft Reset without restarting the application.
+- Download progress improvements and a Stop button.
+- Dedicated Settings tab and reorganized navigation.
+
+### Credits and attribution
+
+**Original author:** [Shoko](https://github.com/shokoe)
+
+**Community Edition maintainer:** [Monkey85](https://github.com/Monkey85)
+
+This is an independent, unofficial fork and is not presented as an official release by the original author.
+
+The original project is distributed under the MIT License. Copyright and license notices are retained.
+
+### Development status
+
+Community Edition v0.18.1 is an initial community build. Some functionality, particularly external download backends, requires additional testing.
+
+---
+
 # RomGoGetter v0.18
 
 **ROM curator and downloader for archive.org, lolroms.com, Minerva, and local collections. It helps you to download only the roms you want from larger romsets.**
