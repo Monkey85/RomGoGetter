@@ -21,6 +21,14 @@ This is an unofficial community fork of [RomGoGetter](https://github.com/shokoe/
 - Arcade FixDAT matching, including clone-to-parent fallback using `cloneof` and controlled `romof` relationships.
 - Handling of missing arcade archives without requiring a separate parent reference DAT.
 
+### Changed
+
+- Moved application configuration files into a dedicated `data/` directory.
+- Updated configuration loading and saving paths for `RomGoGetter_settings.json`, `RomGoGetter_groups.json`, and `RomGoGetter_dat_groups.json`.
+- Updated aria2c executable discovery to use `data/aria2c.exe`.
+- Added automatic migration of existing configuration files from the application root directory to `data/`, without overwriting existing destination files.
+- Preserved fallback support for aria2c installed in the system PATH.
+
 ### Removed
 - The optional "Arcade parent reference DAT" field and its associated processing.
 - Redundant external scrolling in the Download tab.
