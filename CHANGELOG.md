@@ -4,6 +4,37 @@ All notable changes to RomGoGetter Community Edition are documented here.
 
 This is an unofficial community fork of [RomGoGetter](https://github.com/shokoe/RomGoGetter), originally developed by Shoko.
 
+## [0.18.3] - 2026-11-15
+
+### Added
+- Optional region filter in the Selection tab, with regions dynamically discovered from fetched ROM filenames.
+- Optional language filter based on explicit filename language tags, including multilingual releases.
+- Language inference from region tags when no explicit language list is present.
+- Exclusive Selection modes: All Regions / All Languages, Filter by region, and Filter by language.
+
+### Improved
+- Language parsing for multilingual filenames and reversed region/language tag order.
+- Conservative treatment of ambiguous tags, including standalone `(MK)`.
+- 1G1R selects the best matching ROM from the filtered candidate pool rather than filtering the selected result afterwards.
+- Filter controls use the existing Community Edition Tkinter theme, sizing and fonts.
+- Available region and language choices refresh when the fetched file list changes.
+
+### Compatibility
+- The default All Regions / All Languages mode preserves previous unfiltered selection behavior.
+- Filename filters apply to normal All files and 1G1R selection. DAT and Top N retain their own selection criteria.
+- Enabling a filter while 1G1R English only is active switches to normal 1G1R to avoid conflicting language rules.
+- No DB Export files or external language databases are required at runtime.
+
+### Testing
+- 20 functional, UI and regression checks reported passed on the pre-release v0.18.2.7 (Windows).
+- Tests covered No-Intro/Redump selection, download, custom settings, 1G1R, multilingual tags, ambiguous tags and reversed tag order.
+- Source syntax validated. The v0.18.3 release script changes only version identification relative to the tested build.
+
+### Known limitations
+- Region-based language inference uses filename conventions; it cannot verify actual in-game languages.
+- Unusual or non-standard filenames may be unclassified.
+- External service availability depends on third-party sites.
+
 ## [0.18.2] - 2026-11-12
 
 ### Added
